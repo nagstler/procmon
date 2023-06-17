@@ -1,4 +1,6 @@
 # ProcMon: Process Monitoring Tool
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Go Version](https://img.shields.io/badge/Go-1.17-blue.svg)](https://golang.org/dl/)
+
 
 ProcMon is a simple command-line tool written in Go. It monitors a specified system process by its PID (Process ID) and sends alerts to a designated Slack channel if the process is not found or if it's consuming too much CPU.
 
