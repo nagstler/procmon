@@ -27,7 +27,7 @@ jobs:
       run: go mod download
 
     - name: Build
-      working-directory: /
+      working-directory: .
       run: go build -v .
 
 
