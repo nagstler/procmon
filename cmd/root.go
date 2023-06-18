@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"procmon/pkg/monitor"
+	"strconv"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -11,16 +13,17 @@ import (
 
 var (
 	cfgFile string
-	pid     int
 	log     = logrus.New()
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "procmon",
+	Use:   "procmon [PID]",
 	Short: "ProcMon is a process monitoring tool",
+	Args:  cobra.ExactArgs(1), // Ensure exactly one argument is provided (the PID)
 	Run: func(cmd *cobra.Command, args []string) {
-		if pid == 0 {
-			log.Fatal("Process ID must be provided")
+		pid, err := strconv.Atoi(args[0]) // Get the PID from the arguments
+		if err != nil {
+			log.Fatalf("Invalid process ID: %s", args[0])
 		}
 
 		if err := viper.ReadInConfig(); err != nil {
@@ -41,24 +44,26 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-func Execute() error {
+func Execute() {
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
-		return err
+		os.Exit(1)
 	}
-	return nil
 }
 
 func init() {
 	cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./config.yaml)")
-	rootCmd.Flags().IntVarP(&pid, "pid", "p", 0, "process id to monitor")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.procmon.yaml)")
 }
 
 func initConfig() {
-	viper.SetConfigName("config") // look for config.yaml
-	viper.AddConfigPath(".")      // in the current directory
+	if cfgFile != "" {
+		viper.SetConfigFile(cfgFile)
+	} else {
+		viper.AddConfigPath(".")
+		viper.SetConfigName("config")
+	}
 
 	viper.AutomaticEnv()
 
