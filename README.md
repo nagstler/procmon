@@ -1,5 +1,5 @@
 # ProcMon: Process Monitoring Tool
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Go Version](https://img.shields.io/badge/Go-1.17-blue.svg)](https://golang.org/dl/) [![Go CI Build](https://github.com/nagstler/procmon/actions/workflows/main.yml/badge.svg)](https://github.com/nagstler/procmon/actions/workflows/main.yml)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Go Version](https://img.shields.io/badge/Go-1.17-blue.svg)](https://golang.org/dl/) [![Go CI Build](https://github.com/nagstler/procmon/actions/workflows/main.yml/badge.svg)](https://github.com/nagstler/procmon/actions/workflows/main.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/4020d2d5bb982e89047a/maintainability)](https://codeclimate.com/github/nagstler/procmon/maintainability)
 
 
 ProcMon is a simple command-line tool written in Go. It monitors a specified system process by its PID (Process ID) and sends alerts to a designated Slack channel if the process is not found or if it's consuming too much CPU.
@@ -52,7 +52,7 @@ Replace `12345` with the PID of the process you want to monitor.
 
 ## Contributing
 
-Contributions are always welcome! Please see the `CONTRIBUTING.md` file for more information.
+Bug reports and pull requests are welcome on GitHub at https://github.com/nagstler/chatgpt-ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/nagstler/procmon/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
