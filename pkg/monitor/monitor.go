@@ -12,40 +12,50 @@ import (
 
 var log = logrus.New()
 
-func Start(pid int32, slackToken string, channelID string) {
+func getProcessInfo(pid int32) (*process.Process, string, float64, float64, error) {
 	p, err := process.NewProcess(pid)
 	if err != nil {
-		log.WithFields(logrus.Fields{
-			"pid": pid,
-		}).Error("No process found with the provided PID: ", err)
-		return
+		return nil, "", 0, 0, err
 	}
 
 	name, err := p.Name()
 	if err != nil {
-		log.WithFields(logrus.Fields{
-			"pid": pid,
-		}).Error("Unable to fetch process name: ", err)
-		return
+		return nil, "", 0, 0, err
 	}
 
 	cpuPercent, err := p.CPUPercent()
 	if err != nil {
-		log.WithFields(logrus.Fields{
-			"pid": pid,
-		}).Error("Unable to fetch CPU percent: ", err)
-		return
+		return nil, "", 0, 0, err
 	}
 
 	memInfo, err := p.MemoryInfo()
 	if err != nil {
-		log.WithFields(logrus.Fields{
-			"pid": pid,
-		}).Error("Unable to fetch memory info: ", err)
-		return
+		return nil, "", 0, 0, err
 	}
 
 	memMB := float64(memInfo.RSS) / 1024.0 / 1024.0
+
+	return p, name, cpuPercent, memMB, nil
+}
+
+func checkCPULoad(pid int32, p *process.Process, cpuPercent float64, slackToken string, channelID string) {
+	if cpuPercent > 80.0 {
+		slack.Send(slackToken, channelID, fmt.Sprintf(":fire: Process with PID `%d` is using high CPU: `%.2f`", pid, cpuPercent))
+		log.WithFields(logrus.Fields{
+			"pid": pid,
+			"cpu": cpuPercent,
+		}).Warn("Process using high CPU")
+	}
+}
+
+func Start(pid int32, slackToken string, channelID string) {
+	p, name, cpuPercent, memMB, err := getProcessInfo(pid)
+	if err != nil {
+		log.WithFields(logrus.Fields{
+			"pid": pid,
+		}).Error("Unable to fetch process info: ", err)
+		return
+	}
 
 	slackMessage := fmt.Sprintf(
 		":satellite: *Monitoring started for process:* :satellite:\n\n"+
@@ -86,13 +96,7 @@ func Start(pid int32, slackToken string, channelID string) {
 			continue
 		}
 
-		if cpuPercent > 80.0 {
-			slack.Send(slackToken, channelID, fmt.Sprintf(":fire: Process with PID `%d` is using high CPU: `%.2f`", pid, cpuPercent))
-			log.WithFields(logrus.Fields{
-				"pid": pid,
-				"cpu": cpuPercent,
-			}).Warn("Process using high CPU")
-		}
+		checkCPULoad(pid, p, cpuPercent, slackToken, channelID)
 
 		time.Sleep(5 * time.Second)
 	}
