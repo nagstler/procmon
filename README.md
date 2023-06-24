@@ -2,7 +2,7 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Go Version](https://img.shields.io/badge/Go-1.17-blue.svg)](https://golang.org/dl/) [![Go CI Build](https://github.com/nagstler/procmon/actions/workflows/main.yml/badge.svg)](https://github.com/nagstler/procmon/actions/workflows/main.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/4020d2d5bb982e89047a/maintainability)](https://codeclimate.com/github/nagstler/procmon/maintainability)
 
 
-ProcMon is a simple command-line tool written in Go. It monitors a specified system process by its name and sends alerts to a designated Slack channel if the process is not found, if it's consuming too much CPU, or if it is terminated.
+ProcMon is a simple command-line tool written in Go. It monitors a specified system process by its name and sends alerts to a designated Slack channel if the process is not found, consumes too much CPU, or is terminated.
 
 ## Features
 
@@ -45,7 +45,7 @@ slack:
 
 Please remember to replace `'your-slack-token'` and `'your-channel-id'` with your actual Slack bot token and channel ID. **Never commit your Slack bot token to version control.** 
 
-To start monitoring a process, run:
+To start monitoring a process, run the following:
 
 ```bash
 ./procmon "your-process-name"
@@ -61,7 +61,3 @@ This project is intended to be a safe, welcoming space for collaboration, and co
 ## License
 
 This project is licensed under the terms of the MIT license. See the `LICENSE` file for the full text.
-
-```csharp
-Please ensure that you replace "nagstler" with your GitHub username and adjust the links accordingly.
-```
