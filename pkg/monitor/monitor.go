@@ -34,11 +34,11 @@ func getProcessByName(name string) (*process.Process, float64, float64, error) {
 
 func checkCPULoad(name string, p *process.Process, cpuPercent float64, slackToken string, channelID string) {
 	if cpuPercent > 80.0 {
-		slack.Send(slackToken, channelID, fmt.Sprintf(":fire: Process `%s` is using high CPU: `%.2f`", name, cpuPercent))
+		slack.Send(slackToken, channelID, fmt.Sprintf(":fire: *Alert:* Process `%s` is using high CPU: `%.2f%%`", name, cpuPercent))
 		log.WithFields(logrus.Fields{
 			"Process": name,
-			"CPU":     cpuPercent,
-		}).Warn("Process using high CPU")
+			"CPU":     fmt.Sprintf("%.2f%%", cpuPercent),
+		}).Warn("High CPU usage detected")
 	}
 }
 
@@ -52,20 +52,21 @@ func Start(name string, slackToken string, channelID string) {
 			p, cpuPercent, _, err = getProcessByName(name)
 			if err == nil {
 				processIsRunning = true
-				slack.Send(slackToken, channelID, fmt.Sprintf(":information_source: The monitored process `%s` has started.", name))
+				slack.Send(slackToken, channelID, fmt.Sprintf(":satellite: *Monitoring started for process:* `%s`\n:chart_with_upwards_trend: *Initial CPU Usage:* `%.2f%%`", name, cpuPercent))
 				log.WithFields(logrus.Fields{
 					"Process": name,
-				}).Info("Monitored process has started")
+					"CPU":     fmt.Sprintf("%.2f%%", cpuPercent),
+				}).Info("Monitoring started")
 			}
 		} else {
 			cpuPercent, err = p.CPUPercent()
 			if err != nil {
 				running, _ := p.IsRunning()
 				if processIsRunning && !running {
-					slack.Send(slackToken, channelID, fmt.Sprintf(":warning: The monitored process `%s` has terminated.", name))
+					slack.Send(slackToken, channelID, fmt.Sprintf(":warning: *Alert:* The monitored process `%s` has terminated.", name))
 					log.WithFields(logrus.Fields{
 						"Process": name,
-					}).Error("Monitored process has terminated")
+					}).Error("Process terminated")
 					processIsRunning = false
 				}
 			} else {
