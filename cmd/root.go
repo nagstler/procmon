@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"procmon/pkg/monitor"
-	"strconv"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
@@ -17,14 +16,11 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "procmon [PID]",
+	Use:   "procmon [Process Name]",
 	Short: "ProcMon is a process monitoring tool",
-	Args:  cobra.ExactArgs(1), // Ensure exactly one argument is provided (the PID)
+	Args:  cobra.ExactArgs(1), // Ensure exactly one argument is provided (the Process Name)
 	Run: func(cmd *cobra.Command, args []string) {
-		pid, err := strconv.Atoi(args[0]) // Get the PID from the arguments
-		if err != nil {
-			log.Fatalf("Invalid process ID: %s", args[0])
-		}
+		procName := args[0] // Get the Process Name from the arguments
 
 		if err := viper.ReadInConfig(); err != nil {
 			log.Fatalf("Error reading config file, %s", err)
@@ -40,7 +36,7 @@ var rootCmd = &cobra.Command{
 			log.Fatal("Slack channel ID must be set")
 		}
 
-		monitor.Start(int32(pid), slackToken, channelID)
+		monitor.Start(procName, slackToken, channelID)
 	},
 }
 
