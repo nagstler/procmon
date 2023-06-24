@@ -64,6 +64,7 @@ func initConfig() {
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+		fmt.Println("PROCMON STARTED:")
+		fmt.Println("\tUsing config file:", viper.ConfigFileUsed())
 	}
 }

@@ -18,5 +18,7 @@ func Send(slackToken string, channelID string, message string) {
 		fmt.Printf("%s\n", err)
 		return
 	}
-	fmt.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
+	fmt.Println("Message successfully sent on Slack:")
+	fmt.Println("\tChannel:", channelID)
+	fmt.Println("\tTime:", timestamp)
 }

@@ -56,7 +56,7 @@ func Start(name string, slackToken string, channelID string) {
 				log.WithFields(logrus.Fields{
 					"Process": name,
 					"CPU":     fmt.Sprintf("%.2f%%", cpuPercent),
-				}).Info("Monitoring started")
+				}).Info("Monitoring Started")
 			}
 		} else {
 			cpuPercent, err = p.CPUPercent()
@@ -66,7 +66,7 @@ func Start(name string, slackToken string, channelID string) {
 					slack.Send(slackToken, channelID, fmt.Sprintf(":warning: *Alert:* The monitored process `%s` has terminated.", name))
 					log.WithFields(logrus.Fields{
 						"Process": name,
-					}).Error("Process terminated")
+					}).Error("Process Terminated")
 					processIsRunning = false
 				}
 			} else {
