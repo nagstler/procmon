@@ -3,6 +3,9 @@
 
 ProcMon is a simple command-line tool written in Go. It monitors a specified system process by its name and sends alerts to a designated Slack channel if the process is not found, consumes too much CPU, or is terminated.
 
+![SLACK-IMG](https://github.com/nagstler/procmon/assets/1298480/a61602ab-5f58-43d9-b563-216e386af486)
+
+
 ## Features
 
 - Monitor any process by its name
