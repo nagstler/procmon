@@ -16,27 +16,33 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "procmon [Process Name]",
+	Use:   "procmon",
 	Short: "ProcMon is a process monitoring tool",
-	Args:  cobra.ExactArgs(1), // Ensure exactly one argument is provided (the Process Name)
 	Run: func(cmd *cobra.Command, args []string) {
-		procName := args[0] // Get the Process Name from the arguments
-
 		if err := viper.ReadInConfig(); err != nil {
-			log.Fatalf("Error reading config file, %s", err)
+			log.Fatalf("Error reading config file: %s", err)
 		}
 
 		slackToken := viper.GetString("slack.token")
 		if slackToken == "" {
-			log.Fatal("Slack token must be set")
+			log.Fatal("Slack token is not set in the configuration file")
 		}
 
 		channelID := viper.GetString("slack.channel")
 		if channelID == "" {
-			log.Fatal("Slack channel ID must be set")
+			log.Fatal("Slack channel ID is not set in the configuration file")
 		}
 
-		monitor.Start(procName, slackToken, channelID)
+		processNames := viper.GetStringSlice("processes")
+		if len(processNames) == 0 {
+			log.Fatal("No processes are specified in the configuration file")
+		}
+
+		log.Info("ProcMon started")
+
+		monitor.Start(processNames, slackToken, channelID)
+
+		select {}
 	},
 }
 

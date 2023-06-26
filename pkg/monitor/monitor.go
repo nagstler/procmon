@@ -42,7 +42,7 @@ func checkCPULoad(name string, p *process.Process, cpuPercent float64, slackToke
 	}
 }
 
-func Start(name string, slackToken string, channelID string) {
+func startMonitoring(name string, slackToken string, channelID string) {
 	var p *process.Process
 	processIsRunning := false
 	for {
@@ -74,5 +74,11 @@ func Start(name string, slackToken string, channelID string) {
 			}
 		}
 		time.Sleep(5 * time.Second)
+	}
+}
+
+func Start(processNames []string, slackToken string, channelID string) {
+	for _, procName := range processNames {
+		go startMonitoring(procName, slackToken, channelID)
 	}
 }

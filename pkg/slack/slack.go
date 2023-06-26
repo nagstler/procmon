@@ -3,7 +3,12 @@ package slack
 import (
 	"fmt"
 
+	"github.com/sirupsen/logrus"
 	"github.com/slack-go/slack"
+)
+
+var (
+	log = logrus.New()
 )
 
 func Send(slackToken string, channelID string, message string) {
@@ -18,7 +23,5 @@ func Send(slackToken string, channelID string, message string) {
 		fmt.Printf("%s\n", err)
 		return
 	}
-	fmt.Println("Message successfully sent on Slack:")
-	fmt.Println("\tChannel:", channelID)
-	fmt.Println("\tTime:", timestamp)
+	log.Info("Notification sent on Slack channel " + channelID + " at " + timestamp)
 }
