@@ -9,8 +9,9 @@ ProcMon is a simple command-line tool written in Go. It monitors a specified sys
 ## Features
 
 - Monitor any process by its name
+- Monitor multiple processes simultaneously
 - Sends an alert to a Slack channel if the process is not found or terminated
-- Sends an alert if the process's CPU usage exceeds 80%
+- Sends an alert if a process's CPU usage exceeds 80%
 - Resumes monitoring when the process is restarted
 
 ## Prerequisites
@@ -42,18 +43,21 @@ To use ProcMon, you need to provide a configuration file in YAML format (`config
 slack:
   token: 'your-slack-token'
   channel: 'your-channel-id'
+processes:
+  - 'process-name-1'
+  - 'process-name-2'
+  - 'process-name-3'
 ```
 
-Please remember to replace `'your-slack-token'` and `'your-channel-id'` with your actual Slack bot token and channel ID. 
-**Never commit your Slack bot token to version control.** 
+Please remember to replace 'your-slack-token' and 'your-channel-id' with your actual Slack bot token and channel ID, and 'process-name-1', 'process-name-2', 'process-name-3' with the names of the processes you want to monitor.
+
+**Never commit your Slack bot token to version control.**
 
 To start monitoring a process, run the following:
 
 ```bash
-./procmon "your-process-name"
+./procmon
 ```
-
-Replace `"your-process-name"` with the name of the process you want to monitor.
 
 ## Contributing
 
