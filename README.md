@@ -1,5 +1,6 @@
 # ProcMon: Multiprocess Monitoring with Slack Integration 🕵️‍♀️
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Go Version](https://img.shields.io/badge/Go-1.17-blue.svg)](https://golang.org/dl/) [![Go CI Build](https://github.com/nagstler/procmon/actions/workflows/main.yml/badge.svg)](https://github.com/nagstler/procmon/actions/workflows/main.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/4020d2d5bb982e89047a/maintainability)](https://codeclimate.com/github/nagstler/procmon/maintainability)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Go Version](https://img.shields.io/badge/Go-1.17-blue.svg)](https://golang.org/dl/) [![Go CI Build](https://github.com/nagstler/procmon/actions/workflows/main.yml/badge.svg)](https://github.com/nagstler/procmon/actions/workflows/main.yml) [![Maintainability](https://api.codeclimate.com/v1/badges/4020d2d5bb982e89047a/maintainability)](https://codeclimate.com/github/nagstler/procmon/maintainability) [![GitHub release](https://img.shields.io/github/release/nagstler/procmon.svg)](https://github.com/nagstler/procmon/releases/)
+
 
 ProcMon is a simple command-line tool, built in Go, that monitors one or more system processes simultaneously by their names. If a process isn't found, consumes too much CPU, or gets terminated, it sends alerts directly to a specified Slack channel.
 
